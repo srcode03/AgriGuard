@@ -10,3 +10,25 @@
 - Digital Wallet system for viewing/managing user data.
 
 Home Page
+![Home Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2021.29.18.jpeg)
+
+Login Page
+![Login Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2021.22.10.jpeg)
+
+User Page (Farmer)
+![Farmer Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2022.20.21.jpeg)
+
+Wallet
+![Wallet](./Assets/WhatsApp%20Image%202024-03-20%20at%2022.20.10.jpeg)
+
+**Tech Stack**
+
+**Team Members**
+
+Shaunak Raiker
+
+Shreyas Patil
+
+Adesh Sawant
+
+Preet Jain
