@@ -24,6 +24,7 @@ Wallet
 
 
 **Tech Stack**
+
 Frontend:-JavaScript, HTML5, TailwindCSS, React
 
 Machine Learning:- Langchain
