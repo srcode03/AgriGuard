@@ -21,7 +21,16 @@ User Page (Farmer)
 Wallet
 ![Wallet](./Assets/WhatsApp%20Image%202024-03-20%20at%2022.20.10.jpeg)
 
+
+
 **Tech Stack**
+Frontend:-JavaScript, HTML5, TailwindCSS, React
+
+Machine Learning:- Langchain
+
+OCR :- Tesseract
+
+Backend:- MongoDB
 
 **Team Members**
 
