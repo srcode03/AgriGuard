@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FarmerProfile from "./Components/FarmerProfile";
 import ClaimForm from "./Components/ClaimForm";
 import { useEffect, useState } from "react";
+import ProgressBar from "./Components/ProgressBar";
 function App() {
   const [user, setUser] = useState("");
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
           />
           <Route path="/validator-profile" element={<ValidatorProfilePage />} />
           <Route path="/submit_claim" element={<ClaimForm user={user} />} />
+          <Route path="/claim_progress" element={<ProgressBar user={user} />} />
         </Routes>
       </Router>
     </div>

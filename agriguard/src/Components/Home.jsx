@@ -49,9 +49,13 @@ const Home = ({ user, setUser }) => {
               >
                 Submit Claim
               </Link>
-              <button className="claim-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <Link
+                to={"/claim_progress"}
+                className="claim-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                style={{ textDecoration: "none" }}
+              >
                 View Claim Progress
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -87,6 +91,7 @@ const Home = ({ user, setUser }) => {
               </p>
             </div>
           </div>
+          {/* FAQS */}
           <div className="mt-12">
             <h3 className="text-2xl font-bold mb-4">
               Frequently Asked Questions
