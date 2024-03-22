@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const claimRoutes = require('./routes/claimRoutes')
-const Claim = require('../backend/claimSchema')
+const userRoutes = require('./routes/userRoutes')
+const Claim = require('./Schema/claimSchema')
+
 const cors = require("cors");
 
 const connectDB = async () => {
