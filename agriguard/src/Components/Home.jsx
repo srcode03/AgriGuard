@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [faqItems, setFaqItems] = useState([
@@ -34,16 +35,20 @@ const Home = () => {
         <div className=" py-20 border text-black bg-blue-200">
           <div className="container mx-auto text-center">
             <h2 className="text-4xl font-semibold mb-4">
-              Welcome to Agriguard
+              Welcome to AgriGuard
             </h2>
             <p className="text-lg  mb-8">
               Filing a claim can be stressful. At Agriguard, our goal is to
               bring you peace of mind throughout your claim experience.
             </p>
             <div className="flex justify-center gap-4">
-              <button className="claim-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <Link
+                to={"submit_claim"}
+                className="claim-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                style={{ textDecoration: "none" }}
+              >
                 Submit Claim
-              </button>
+              </Link>
               <button className="claim-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 View Claim Progress
               </button>

@@ -48,7 +48,7 @@ const addClaims = asyncHandler(async (req, res) => {
     }
 });
 
-const getClaims = asyncHandler(async (req, res) => {
+const getClaimsByFarmerId = asyncHandler(async (req, res) => {
     try {
         const response = await Claim.find();
         console.log(response);

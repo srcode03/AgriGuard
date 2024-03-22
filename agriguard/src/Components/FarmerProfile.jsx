@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
+import FarmerProfile from "../Cards/FarmerProfileCard";
+import ClaimHistory from "../Cards/ClaimHistory";
 
 const ProfilePage = () => {
   const sidebarItems = [
     { id: 1, label: "Profile" },
     { id: 2, label: "Claim History" },
     { id: 3, label: "My wallet" },
-    { id: 4, label: "Notifications" },
   ];
 
   const [selectedMenuItem, setSelectedMenuItem] = useState(
@@ -23,13 +24,13 @@ const ProfilePage = () => {
       <div className="flex h-[100vh]">
         {/* Sidebar */}
         <div className="w-1/4 bg-gray-200">
-          <div className="p-4">
+          <div className="p-3">
             <h2 className="text-xl font-bold mb-4">Menu</h2>
             <ul>
               {sidebarItems.map((item) => (
                 <li key={item.id}>
                   <button
-                    className={`w-full py-2 text-left focus:outline-none ${
+                    className={`w-full p-2 text-left focus:outline-none ${
                       selectedMenuItem === item.id ? "bg-gray-300" : ""
                     }`}
                     onClick={() => handleMenuItemClick(item.id)}
@@ -56,25 +57,19 @@ const ProfilePage = () => {
               {selectedMenuItem === 1 && (
                 <div>
                   {/* Profile Details */}
-                  <p>Profile details go here...</p>
+                  <FarmerProfile />
                 </div>
               )}
               {selectedMenuItem === 2 && (
                 <div>
                   {/* Settings Details */}
-                  <p>Settings details go here...</p>
+                  <ClaimHistory />
                 </div>
               )}
               {selectedMenuItem === 3 && (
                 <div>
                   {/* Messages Details */}
-                  <p>Messages details go here...</p>
-                </div>
-              )}
-              {selectedMenuItem === 4 && (
-                <div>
-                  {/* Notifications Details */}
-                  <p>Notifications details go here...</p>
+                  <p>Wallet details go here...</p>
                 </div>
               )}
             </div>
