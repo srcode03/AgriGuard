@@ -1,9 +1,8 @@
 import React from "react";
 
-const FarmerProfile = () => {
-  // Dummy farmer data
+const FarmerProfile = ({ user }) => {
   const farmer = {
-    name: "John Doe",
+    name: user.name,
     age: 35,
     location: "Farmville",
     rating: 65,

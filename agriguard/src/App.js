@@ -6,15 +6,37 @@ import ValidatorProfilePage from "./Components/ValidatorProfilePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FarmerProfile from "./Components/FarmerProfile";
 import ClaimForm from "./Components/ClaimForm";
+import { useEffect, useState } from "react";
 function App() {
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("user_agriguard"));
+    setUser(userInfo);
+  }, [setUser]);
+
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/farmer_profile" element={<FarmerProfile />} />
+          <Route path="/" element={<Home user={user} setUser={setUser} />} />
+          <Route
+            path="/signup"
+            element={<Signup user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/login"
+            element={<Login user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/farmer_profile"
+            element={
+              user && user.role === "farmer" ? (
+                <FarmerProfile user={user} />
+              ) : (
+                <ValidatorProfilePage user={user} />
+              )
+            }
+          />
           <Route path="/validator-profile" element={<ValidatorProfilePage />} />
           <Route path="/submit_claim" element={<ClaimForm />} />
         </Routes>

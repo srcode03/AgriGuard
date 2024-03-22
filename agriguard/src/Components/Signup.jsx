@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const server = "http://127.0.0.1:8000/api/user/signup";
 
-function Signup() {
+function Signup({ user, setUser }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,7 +50,7 @@ function Signup() {
       //   });
 
       localStorage.setItem("user_agriguard", JSON.stringify(data));
-      //   setUser(localStorage.getItem("user_chatKaro"));
+      setUser(JSON.parse(localStorage.getItem("user_agriguard")));
       navigate("/");
     } catch (error) {
       //   toast({

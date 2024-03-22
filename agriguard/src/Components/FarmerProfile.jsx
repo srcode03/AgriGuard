@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import FarmerProfile from "../Cards/FarmerProfileCard";
 import ClaimHistory from "../Cards/ClaimHistory";
 
-const ProfilePage = () => {
+const ProfilePage = ({user}) => {
   const sidebarItems = [
     { id: 1, label: "Profile" },
     { id: 2, label: "Claim History" },
@@ -57,13 +57,13 @@ const ProfilePage = () => {
               {selectedMenuItem === 1 && (
                 <div>
                   {/* Profile Details */}
-                  <FarmerProfile />
+                  <FarmerProfile user={user} />
                 </div>
               )}
               {selectedMenuItem === 2 && (
                 <div>
                   {/* Settings Details */}
-                  <ClaimHistory />
+                  <ClaimHistory user={user} />
                 </div>
               )}
               {selectedMenuItem === 3 && (
