@@ -10,17 +10,23 @@
 - Digital Wallet system for viewing/managing user data.
 
 Home Page
-![Home Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2021.29.18.jpeg)
+![1](https://github.com/srcode03/AgriGuard/assets/99495910/526554ab-0f32-4ad6-ab19-f3ba8e9ffaa6)
+
 
 Login Page
-![Login Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2021.22.10.jpeg)
+
+![5](https://github.com/srcode03/AgriGuard/assets/99495910/85a29ad3-0ffc-4f16-bef1-865b5a151679)
+
 
 User Page (Farmer)
-![Farmer Page](./Assets/WhatsApp%20Image%202024-03-20%20at%2022.20.21.jpeg)
+![2](https://github.com/srcode03/AgriGuard/assets/99495910/7a2a8bf1-5603-411b-847a-4201a1ae1b63)
 
 Wallet
-![Wallet](./Assets/WhatsApp%20Image%202024-03-20%20at%2022.20.10.jpeg)
+![3](https://github.com/srcode03/AgriGuard/assets/99495910/4b8b43e5-f324-46c8-b4e9-3896e7b20692)
 
+Validator(Dashboard similar to this):
+
+![4](https://github.com/srcode03/AgriGuard/assets/99495910/1e1f5ca5-954d-4f01-8f50-b14bb5c42079)
 
 
 **Tech Stack**
