@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Components/Navbar";
 import "./Home.css";
 // Assuming you have an image in your assets folder
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 const Home = () => {
   const [faqItems, setFaqItems] = useState([
     {
       question: "What do I need to file a claim?",
-      answer: "You need your documnetation regarding crops sown,month in which crops were sown and a few other details.",
+      answer:
+        "You need your documnetation regarding crops sown,month in which crops were sown and a few other details.",
     },
     {
       question: "How long does it take to file a claim?",
@@ -36,7 +38,7 @@ const Home = () => {
       <div className="hero-section">
         <div className="container">
           <h2 className="alpha">Welcome to Agriguard</h2>
-          <p className="hero-text">
+          <p className=" text-red-50">
             Filing a claim can be stressful. At Agriguard, our goal is to bring
             you peace of mind throughout your claim experience.
           </p>

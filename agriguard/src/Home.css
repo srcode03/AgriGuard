@@ -1,130 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navbar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .nav-links {
-    margin-top: 10px;
-  }
-  
-  .btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-    border-radius: 5px;
-  }
-  
-  .btn:hover {
-    background-color: #45a049;
-  }
-  
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    color: #4CAF50;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .claim-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .claim-btn:hover {
-    background-color: #45a049;
-  }
-  
-  .footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-  }
-  
-  /* Additional styles for FAQ section */
-  .faq-section {
-    background-color: #f5f5f5;
-    padding: 30px;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .faq-item {
-    margin-bottom: 20px;
-  }
-  
-  .faq-question {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .faq-question:hover {
-    color: #4CAF50;
-  }
-  
-  .faq-answer {
-    display: none;
-  }
-  .h {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-    text-decoration: underline;
-    margin-top: 50px;
-    margin:auto;
-    text-align: center;
-  }
-  .home-container {
-    background-image: url('https://www.newsclick.in/sites/default/files/styles/responsive_885/public/2023-03/agri239.jpg?itok=SgXAKdMr');
-    background-size: cover;
-    background-repeat: no-repeat; /* Set background to not repeat */
-    background-position: center;
-    min-height: 100vh; /* Ensures full height of the viewport */
-    display: flex;
-    flex-direction: column;
-  }
-  .hero-text{
-    color:white
-  }
-  .alpha{
-    color:yellow
-  }
-  /* Home.css or App.css */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
+.navbar {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
 
-  
-  
+.nav-links {
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #4caf50;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.claim-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.claim-btn:hover {
+  background-color: #45a049;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Additional styles for FAQ section */
+.faq-section {
+  background-color: #f5f5f5;
+  padding: 30px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-question {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.faq-question:hover {
+  color: #4caf50;
+}
+
+.faq-answer {
+  display: none;
+}
+.h {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 50px;
+  margin: auto;
+  text-align: center;
+}
+.home-container {
+  background-image: url("https://www.newsclick.in/sites/default/files/styles/responsive_885/public/2023-03/agri239.jpg?itok=SgXAKdMr");
+  background-size: cover;
+  background-repeat: no-repeat; /* Set background to not repeat */
+  background-position: center;
+  min-height: 100vh; /* Ensures full height of the viewport */
+  display: flex;
+  flex-direction: column;
+}
+.hero-text {
+  color: white;
+}
+.alpha {
+  color: yellow;
+}
+/* Home.css or App.css */
