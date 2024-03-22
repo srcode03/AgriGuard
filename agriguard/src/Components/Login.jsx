@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const server = "http://127.0.0.1:8000/api/user/login";
-function Login() {
+function Login({user,setUser}) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -44,7 +44,7 @@ function Login() {
       //   });
 
       localStorage.setItem("user_agriguard", JSON.stringify(data));
-      //   setUser(localStorage.getItem("user_chatKaro"));
+      setUser(JSON.parse(localStorage.getItem("user_agriguard")));
       navigate("/");
     } catch (error) {
       //   toast({

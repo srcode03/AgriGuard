@@ -3,9 +3,9 @@ import axios from "axios";
 import { CLOSING } from "ws";
 import { log } from "console";
 
-const FarmerProfile = () => {
-  const [farmer, setFarmer] = useState({
-    name: "John Doe",
+const FarmerProfile = ({ user }) => {
+  const farmer = {
+    name: user.name,
     age: 35,
     location: "Farmville",
     rating: 65,

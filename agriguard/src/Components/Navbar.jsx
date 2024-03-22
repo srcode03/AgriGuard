@@ -3,13 +3,6 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -25,6 +18,7 @@ export default function Example() {
 
   const handleLogout = () => {
     localStorage.removeItem("user_agriguard");
+    setUser("");
     window.location.reload();
     // navigate("/login");
   };
@@ -180,7 +174,7 @@ export default function Example() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
+          {/* <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button
@@ -199,7 +193,7 @@ export default function Example() {
                 </Disclosure.Button>
               ))}
             </div>
-          </Disclosure.Panel>
+          </Disclosure.Panel> */}
         </>
       )}
     </Disclosure>
