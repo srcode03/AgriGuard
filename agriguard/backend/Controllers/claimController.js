@@ -92,7 +92,7 @@ const getCredit = asyncHandler(async (req, res) => {
 
         res.json({
             success: true,
-            credit,
+            credit: credit,
         });
     } catch (error) {
         res.status(500).json({

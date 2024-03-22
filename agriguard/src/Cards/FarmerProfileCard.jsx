@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CLOSING } from "ws";
+import { log } from "console";
 
 const FarmerProfile = () => {
   const [farmer, setFarmer] = useState({
@@ -17,6 +19,7 @@ const FarmerProfile = () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${farmer.email}`);
         const data = response.data;
+        // console.log(data);
         if (data.success) {
           setFarmer(prevFarmer => ({ ...prevFarmer, rating: data.credit }));
         }
@@ -24,7 +27,6 @@ const FarmerProfile = () => {
         console.error("Failed to fetch credit rating:", error);
       }
     };
-
     fetchCredit();
   }, []);
 
