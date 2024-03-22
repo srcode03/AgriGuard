@@ -23,7 +23,7 @@ body {
 
 .hero {
     background-image: url("../Components/istockphoto-503646746-612x612.jpg");
-    background-position:;
+    /* background-position:; */
     width:100%;
     height: 100%;
     flex: 2;

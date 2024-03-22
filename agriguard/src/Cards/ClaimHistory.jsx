@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClaimHistory = () => {
+const ClaimHistory = ({user}) => {
   // Dummy data for farmer's claim history
   const claimHistory = [
     { id: 1, status: "Approved", date: "2022-03-15" },

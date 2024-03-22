@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const Claim = require('../Schema/claimSchema');
 
 const userSchema = mongoose.Schema(
   {
@@ -20,7 +21,7 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["farmer", "validator"],
       default: "farmer",
-    },
+    }
   },
   {
     timestamps: true,

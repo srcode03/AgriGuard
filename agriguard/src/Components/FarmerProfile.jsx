@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import FarmerProfile from "../Cards/FarmerProfileCard";
 import ClaimHistory from "../Cards/ClaimHistory";
 
-const ProfilePage = () => {
+const ProfilePage = ({user}) => {
   const sidebarItems = [
     { id: 1, label: "Profile" },
     { id: 2, label: "Claim History" },
@@ -30,7 +30,7 @@ const ProfilePage = () => {
               {sidebarItems.map((item) => (
                 <li key={item.id}>
                   <button
-                    className={`w-full p-2 text-left focus:outline-none ${
+                    className={`w-full text-left focus:outline-none p-2 ${
                       selectedMenuItem === item.id ? "bg-gray-300" : ""
                     }`}
                     onClick={() => handleMenuItemClick(item.id)}
@@ -57,13 +57,13 @@ const ProfilePage = () => {
               {selectedMenuItem === 1 && (
                 <div>
                   {/* Profile Details */}
-                  <FarmerProfile />
+                  <FarmerProfile user={user} />
                 </div>
               )}
               {selectedMenuItem === 2 && (
                 <div>
                   {/* Settings Details */}
-                  <ClaimHistory />
+                  <ClaimHistory user={user} />
                 </div>
               )}
               {selectedMenuItem === 3 && (

@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes')
 const Claim = require('./Schema/claimSchema')
 
 const cors = require("cors");
+const userRoutes = require('../backend/routes/userRoutes')
 
 const connectDB = async () => {
   try {

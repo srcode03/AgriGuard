@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Claim = require('../Schema/claimSchema')
+const User = require('../Schema/userSchema')
 
 const getClaims = asyncHandler(async (req, res) => {
     try {
@@ -25,18 +26,25 @@ const addClaims = asyncHandler(async (req, res) => {
         });
     }
 
-    const { Location, cropType, expectedYield, estimatedYield, farmerEmailId } = req.body;
-    console.log(req.body);
+    const { farmerId, Location, cropType, expectedYield, estimatedYield , status } = req.body;
     try {
         const newClaim = new Claim({
-            farmerEmailId: farmerEmailId,
+            farmerId: farmerId,
             expectedYield: expectedYield,
             estimatedYield: estimatedYield,
             Location: Location,
-            cropType: cropType
+            cropType: cropType,
+            status: status
         });
         const savedClaim = await newClaim.save();
+
+        // Update the user's claims array
+        //const user = await User.findOne({ email: req.user.email });
+       // user.claims.push(savedClaim._id);
+        //await user.save();
+
         return res.json({
+            success: true,
             success: true,
             claim: savedClaim
         });
@@ -48,25 +56,58 @@ const addClaims = asyncHandler(async (req, res) => {
     }
 });
 
+
+
 const getClaimsByFarmerId = asyncHandler(async (req, res) => {
     try {
-        const response = await Claim.find();
-        console.log(response);
-        return res.json({
-            success : true,
-            claims: response
-        })
+      const { id } = req.params;
+      console.log(id);
+      const claims = await Claim.find({farmerId : id});
+      res.json({
+        success: true,
+        claims,
+      });
     } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: error.message
-        })
+      res.status(500).json({
+        success: false,
+        message: "Failed to get claims",
+      });
     }
 });
+const getCredit = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const claims = await Claim.find({ farmerId: id });
+
+        // Filter the claims to get only approved ones
+        const approvedClaims = claims.filter(claim => claim.status === 'approved');
+        const totalClaims = claims.length;
+
+        // Calculate the credit
+        let credit = 0;
+        if (totalClaims > 0) {
+            credit = approvedClaims.length / totalClaims;
+        }
+        credit = credit * 10;
+
+        res.json({
+            success: true,
+            credit,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to calculate credit",
+        });
+    }
+});
+
 
 
 module.exports = {
     getClaims,
     addClaims,
+   getClaimsByFarmerId,
+   getCredit
 };
   

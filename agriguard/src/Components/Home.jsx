@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const Home = ({ user, setUser }) => {
   const [faqItems, setFaqItems] = useState([
     {
       question: "What do I need to file a claim?",
@@ -30,7 +30,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
       <div>
         <div className=" py-20 border text-black bg-blue-200">
           <div className="container mx-auto text-center">
