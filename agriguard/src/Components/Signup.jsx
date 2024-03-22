@@ -6,7 +6,9 @@ function Signup() {
     fullName: "",
     email: "",
     password: "",
-    userType: "", // New field for user type
+    userType: "",
+    location: "",
+    phoneNo: "" // New field for user type
   });
 
   const handleChange = (e) => {
