@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../Models/UserModel");
+const User = require("../userSchema");
 const generateToken = require("../config/generateToken");
 var validator = require("email-validator");
 const { hashPassword } = require("../config/hashPassword");
@@ -47,8 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
           _id: user._id,
           name: user.name,
           email: user.email,
-          isAdmin: user.isAdmin,
-          avatar: user.avatar,
+          role: user.role,
           token: generateToken(user._id),
         },
       });
@@ -98,8 +97,7 @@ const authUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.isAdmin,
-            avatar: user.avatar,
+            role: user.role,
             token: generateToken(user._id),
           },
         });
@@ -158,9 +156,7 @@ const authUser = asyncHandler(async (req, res) => {
 //   }
 // });
 
-
 module.exports = {
   registerUser,
   authUser,
-  allUsers,
 };
