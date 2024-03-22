@@ -9,16 +9,18 @@ const FarmerProfile = ({ user }) => {
     rating: 65,
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  });
+  };
 
   useEffect(() => {
-    const farmer = localStorage.getItem("user_agriguard")
+    const farmer = localStorage.getItem("user_agriguard");
     const fetchCredit = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${farmer.email}`);
+        const response = await axios.get(
+          `http://localhost:8000/api/claims/getCredit/${farmer.email}`
+        );
         const data = response.data;
         if (data.success) {
-          setFarmer(prevFarmer => ({ ...prevFarmer, rating: data.credit }));
+          //   setFarmer(prevFarmer => ({ ...prevFarmer, rating: data.credit }));
         }
       } catch (error) {
         console.error("Failed to fetch credit rating:", error);

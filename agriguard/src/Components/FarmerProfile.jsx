@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import FarmerProfile from "../Cards/FarmerProfileCard";
 import ClaimHistory from "../Cards/ClaimHistory";
+import { useNavigate } from "react-router-dom";
 
-const ProfilePage = ({user}) => {
+const ProfilePage = ({ user }) => {
+//   const navigate = useNavigate();
+//   useEffect(() => {
+//     if (!user) {
+//       navigate("/login");
+//     }
+//   }, [navigate]);
   const sidebarItems = [
     { id: 1, label: "Profile" },
     { id: 2, label: "Claim History" },

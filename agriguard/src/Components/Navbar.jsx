@@ -72,7 +72,7 @@ export default function Example() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {user ? (
                   <Link
-                    to={"farmer_profile"}
+                    to={"/farmer_profile"}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
                     style={{ textDecoration: "none" }}
                   >
@@ -80,7 +80,7 @@ export default function Example() {
                   </Link>
                 ) : (
                   <Link
-                    to={"login"}
+                    to={"/login"}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
                     style={{ textDecoration: "none" }}
                   >
@@ -89,7 +89,7 @@ export default function Example() {
                 )}
                 {user ? (
                   <Link
-                    to={"signup"}
+                    to={"/login"}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     style={{ textDecoration: "none" }}
                     onClick={handleLogout}
@@ -98,7 +98,7 @@ export default function Example() {
                   </Link>
                 ) : (
                   <Link
-                    to={"signup"}
+                    to={"/signup"}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     style={{ textDecoration: "none" }}
                   >

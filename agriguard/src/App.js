@@ -38,7 +38,7 @@ function App() {
             }
           />
           <Route path="/validator-profile" element={<ValidatorProfilePage />} />
-          <Route path="/submit_claim" element={<ClaimForm />} />
+          <Route path="/submit_claim" element={<ClaimForm user={user} />} />
         </Routes>
       </Router>
     </div>
