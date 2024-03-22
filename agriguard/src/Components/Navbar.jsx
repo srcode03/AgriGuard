@@ -1,6 +1,7 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -14,6 +15,20 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("user_agriguard"));
+    setUser(userInfo);
+  }, [setUser]);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user_agriguard");
+    window.location.reload();
+    // navigate("/login");
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -61,20 +76,41 @@ export default function Example() {
                 </div> */}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Link
-                  to={"login"}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
-                  style={{ textDecoration: "none" }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to={"signup"}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  style={{ textDecoration: "none" }}
-                >
-                  Signup
-                </Link>
+                {user ? (
+                  <Link
+                    to={"farmer_profile"}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
+                    style={{ textDecoration: "none" }}
+                  >
+                    My Profile
+                  </Link>
+                ) : (
+                  <Link
+                    to={"login"}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
+                    style={{ textDecoration: "none" }}
+                  >
+                    Login
+                  </Link>
+                )}
+                {user ? (
+                  <Link
+                    to={"signup"}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    style={{ textDecoration: "none" }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Link>
+                ) : (
+                  <Link
+                    to={"signup"}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    style={{ textDecoration: "none" }}
+                  >
+                    Signup
+                  </Link>
+                )}
                 {/* Profile dropdown */}
                 {/* <Menu as="div" className="relative ml-3">
                   <div>

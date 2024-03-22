@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Claim = require('../backend/claimSchema')
+const claimRoutes = require('./routes/claimRoutes')
+const userRoutes = require('./routes/userRoutes')
+const Claim = require('./Schema/claimSchema')
+
 const cors = require("cors");
-const userRoutes = require('./userRoutes');
 
 const connectDB = async () => {
   try {
@@ -23,6 +25,7 @@ app.listen(8000, () => {
   console.log("Server is listening on port 8000");
 });
 
-app.use(cors());
-app.use(express.json());
+app.use(express.json())
+app.use(cors())
+app.use("/api/claims" , claimRoutes)
 app.use("/api/user", userRoutes);
