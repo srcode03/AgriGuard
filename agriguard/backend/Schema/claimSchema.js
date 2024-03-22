@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
-const ClaimSchema = new mongoose.Schema({
-  farmerEmailId: {
+
+const claimSchema = new mongoose.Schema({
+  farmerId: {
     type: String,
     required: true,
-    unique: true
+    unique: false
   },
   estimatedYield: {
     type: Number,
-    unique: true
+    required: true,
   },
   expectedYield: {
     type: Number,
-    unique: true,
+    required: true,
   },
   cropType: {
     type: String,
@@ -23,9 +24,14 @@ const ClaimSchema = new mongoose.Schema({
   },
   DateOfClaim: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+  },
+  status: {
+    type: String ,
+    required: true
   }
 });
 
-const Claim = mongoose.model("Claim", ClaimSchema);
+const Claim = mongoose.model("Claim", claimSchema);
+
 module.exports = Claim;
