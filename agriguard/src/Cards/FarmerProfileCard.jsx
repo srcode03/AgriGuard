@@ -1,33 +1,50 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CLOSING } from "ws";
-import { log } from "console";
 
 const FarmerProfile = ({ user }) => {
-  const farmer = {
+  const [farmer , setFarmer] = useState({
     name: user.name,
     age: 35,
     location: "Farmville",
     rating: 65,
+    correctStakes: 0,
+    InCorrectStakes: 0,
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   });
 
   useEffect(() => {
-    const farmer = localStorage.getItem("user_agriguard")
     const fetchCredit = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${farmer.email}`);
+        const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${user.email}`);
         const data = response.data;
-        // console.log(data);
+        console.log(data);
         if (data.success) {
-          setFarmer(prevFarmer => ({ ...prevFarmer, rating: data.credit }));
+          setFarmer(prev => ({...prev , rating: data.credit}))
         }
       } catch (error) {
         console.error("Failed to fetch credit rating:", error);
       }
     };
+    const fetchCorrectClaims = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/claims/getClaimsByFarmerId/${user.email}`);
+        const data = response.data;
+        const claims = data.claims
+        console.log(claims)
+        const temp = claims.filter(claim => (claim.status === 'approved' || claim.status === 'Approved'))
+        // console.log(data);
+        const correct = temp.length
+        const temp2 = claims.filter(claim => (claim.status === 'rejected' || claim.status === 'Rejected'))
+        const incorrect = temp2.length
+        setFarmer(prev => ({...prev , correctStakes: correct , InCorrectStakes: incorrect}))
+        
+      } catch (error) {
+        console.error("Failed to fetch credit rating:", error);
+      }
+    };
     fetchCredit();
+    fetchCorrectClaims()
   }, []);
 
   return (
@@ -38,6 +55,8 @@ const FarmerProfile = ({ user }) => {
           <p className="text-gray-600 mb-2">Age: {farmer.age}</p>
           <p className="text-gray-600 mb-2">Location: {farmer.location}</p>
           <p className="text-gray-600 mb-2">Credit Rating: {farmer.rating}</p>
+          <p className="text-gray-600 mb-2">Number of Correct Stakes : {farmer.correctStakes}</p>
+          <p className="text-gray-600 mb-2">Number of Incorrect Stakes : {farmer.InCorrectStakes}</p>
           <p className="text-gray-600">{farmer.about}</p>
         </div>
       </div>

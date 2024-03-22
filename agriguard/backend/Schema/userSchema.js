@@ -21,7 +21,11 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["farmer", "validator"],
       default: "farmer",
-    }
+    },
+    claims: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Claim"
+    }]    
   },
   {
     timestamps: true,

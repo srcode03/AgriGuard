@@ -3,6 +3,8 @@ const User = require("../Schema/userSchema");
 const generateToken = require("../config/generateToken");
 var validator = require("email-validator");
 const { hashPassword } = require("../config/hashPassword");
+const axios = require('axios')
+const Claim = require('../Schema/claimSchema')
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -121,42 +123,28 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// const forgetPassword = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
+const getUser =  asyncHandler(async (req, res) => {
+  const {role} = req.params
+  try {
+    const response = await User.find({ role: role })
+    .populate("claims")
+    .exec();
 
-//   const user = await User.findOne({ email });
+    console.log(response);
 
-//   if (!user) {
-//     return res.status(400).json({
-//       success: false,
-//       msg: "User not found!",
-//     });
-//   }
-
-//   try {
-//     const resetToken = await user.getResetToken();
-
-//     await user.save();
-
-//     // send token via email
-//     const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-//     const message = `Click on the link to reset your password. ${url}`;
-//     await sendEmail(user.email, "Password Reset Token", message);
-
-//     return res.status(200).json({
-//       success: true,
-//       msg: `Reset password link has been sent to ${email}`,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(400).json({
-//       success: false,
-//       msg: error,
-//     });
-//   }
-// });
+    return res.json({
+      success: true,
+      users : response
+    })
+  } catch (error) {
+    return res.json({
+      error : error.message
+    })
+  }
+})
 
 module.exports = {
   registerUser,
   authUser,
+  getUser
 };
