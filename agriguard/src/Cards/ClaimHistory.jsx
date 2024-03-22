@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
+import axios from 'axios'
 
 const ClaimHistory = ({user}) => {
   // Dummy data for farmer's claim history
-  const claimHistory = [
-    { id: 1, status: "Approved", date: "2022-03-15" },
-    { id: 2, status: "Pending", date: "2022-04-20" },
-    { id: 3, status: "Rejected", date: "2022-05-10" },
-    { id: 4, status: "Approved", date: "2022-06-05" },
-  ];
+  const [claimHistory , setClaimHistory] = useState([])
+
+  useEffect(() => {
+    const fetchCredit = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/claims/getClaimsByFarmerId/${user.email}`);
+        const data = response.data;
+        console.log(data);
+        setClaimHistory(data.claims)
+      } catch (error) {
+        console.error("Failed to fetch credit rating:", error);
+      }
+    };
+    fetchCredit();
+  }, []);
 
   return (
     <div>
@@ -36,15 +46,15 @@ const ClaimHistory = ({user}) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {claimHistory.map((h) => (
-            <tr key={h.claimid}>
+            <tr key={h._id}>
               <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.id}
+                {h._id}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-center">
                 {h.status}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.date}
+                {h.DateOfClaim}
               </td>
             </tr>
           ))}

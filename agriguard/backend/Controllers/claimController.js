@@ -39,9 +39,9 @@ const addClaims = asyncHandler(async (req, res) => {
         const savedClaim = await newClaim.save();
 
         // Update the user's claims array
-        //const user = await User.findOne({ email: req.user.email });
-       // user.claims.push(savedClaim._id);
-        //await user.save();
+        const user = await User.findOne({ email: farmerId });
+        user.claims.push(savedClaim._id);
+        await user.save();
 
         return res.json({
             success: true,
@@ -89,10 +89,11 @@ const getCredit = asyncHandler(async (req, res) => {
             credit = approvedClaims.length / totalClaims;
         }
         credit = credit * 10;
+        credit = credit.toFixed(2)
 
         res.json({
             success: true,
-            credit,
+            credit: credit,
         });
     } catch (error) {
         res.status(500).json({
@@ -107,7 +108,7 @@ const getCredit = asyncHandler(async (req, res) => {
 module.exports = {
     getClaims,
     addClaims,
-   getClaimsByFarmerId,
-   getCredit
+    getClaimsByFarmerId,
+    getCredit
 };
   

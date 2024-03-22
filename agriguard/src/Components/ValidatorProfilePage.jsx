@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+
 
 const ValidatorClaimHistory = ({ user }) => {
   // const navigate = useNavigate();
@@ -62,45 +63,44 @@ const ValidatorClaimHistory = ({ user }) => {
   );
 };
 
-const ValidatorProfile = () => {
+const ValidatorProfile = ({ user }) => {
   // Dummy farmer data
-  const validator = {
-    name: "John Doe",
-    numberOfCorrectStakes: "20",
-    numberOfInCorrectStakes: "10",
+  const [validator , setValidator] = useState({
+    name: 'name',
+    numberOfCorrectStakes: 0,
+    numberOfInCorrectStakes: 0,
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  };
+  });
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const response = axios.get(`http://localhost:8000/api/user/getUser/${user.role}`)
+        const data = response.data
+        console.log(data)
+        const users = data.user
+        const getuser = users.filter(u => u.email === user.email)
+        console.log(getuser)
+        const correct = getuser.claims.map(claim => claim.status === 'approved' || claim.status === 'Approved')
+        const cor = correct.length;
+        const incor = getuser.claims.length - cor;
+        setValidator(prev => ({...prev , name: getuser.name , numberOfCorrectStakes: cor , numberOfInCorrectStakes: incor }))
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    fetchDetails()
+  } , [])
 
   return (
     <div className="flex">
-      {/* Farmer Profile */}
       <div className="w-3/4 p-4">
         {" "}
         <div className="bg-white rounded-lg shadow-lg p-4">
           <h3 className="text-xl font-semibold mb-2">{validator.name}</h3>
-          <p className="text-gray-600 mb-2">
-            Number of Correct Stakes : {validator.numberOfCorrectStakes}
-          </p>
-          <p className="text-gray-600 mb-2">
-            Number of Incorrect Stakes : {validator.numberOfInCorrectStakes}
-          </p>
-          {/* <div className="mb-2">
-            <p className="text-gray-600 font-semibold">Crops:</p>
-            <ul className="list-disc ml-4">
-              {validator.crops.map((crop, index) => (
-                <li key={index}>{crop}</li>
-              ))}
-            </ul>
-          </div> */}
-          {/* <div className="mb-2">
-            <p className="text-gray-600 font-semibold">Livestock:</p>
-            <ul className="list-disc ml-4">
-              {farmer.livestock.map((animal, index) => (
-                <li key={index}>{animal}</li>
-              ))}
-            </ul>
-          </div> */}
+          <p className="text-gray-600 mb-2">Number of Correct Stakes : {validator.numberOfCorrectStakes}</p>
+          <p className="text-gray-600 mb-2">Number of Incorrect Stakes : {validator.numberOfInCorrectStakes}</p>
           <p className="text-gray-600">{validator.about}</p>
         </div>
       </div>
@@ -109,63 +109,43 @@ const ValidatorProfile = () => {
 };
 
 const ViewStakableClaims = () => {
-  // get list of ongoing claims from
-  const ListOfClaimableStakes = [];
-  return (
-    <div>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Farmer Name
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Claim ID
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              staked amount by farmer
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Farmer credit rating
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {ListOfClaimableStakes.map((h) => (
-            <tr key={h.claimid}>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.farmername}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.claimid}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.amountByFarmer}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.credit}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    const ListOfClaimableStakes = []
+    return (
+        <div>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Farmer Name
+                </th>
+                <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Claim ID
+                </th>
+                <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  staked amount by farmer
+                </th>
+                <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Farmer credit rating
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {ListOfClaimableStakes.map((h) => (
+                <tr key={h.claimid}>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.farmername}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.claimid}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.amountByFarmer}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.credit}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+}
 
-const ValidatorProfilePage = () => {
+const ValidatorProfilePage = ({ user }) => {
+  console.log(user);
   const sidebarItems = [
     { id: 1, label: "Profile" },
     { id: 2, label: "Claim History" },
@@ -185,7 +165,6 @@ const ValidatorProfilePage = () => {
     <div>
       <Navbar />
       <div className="flex h-[100vh]">
-        {/* Sidebar */}
         <div className="w-1/4 bg-gray-200">
           <div className="p-4">
             <h2 className="text-xl font-bold mb-4">Menu</h2>
@@ -220,13 +199,13 @@ const ValidatorProfilePage = () => {
               {selectedMenuItem === 1 && (
                 <div>
                   {/* Profile Details */}
-                  <ValidatorProfile />
+                  <ValidatorProfile user={user}/>
                 </div>
               )}
               {selectedMenuItem === 2 && (
                 <div>
                   {/* Settings Details */}
-                  <ValidatorClaimHistory />
+                  <ValidatorClaimHistory user={user} />
                 </div>
               )}
               {selectedMenuItem === 3 && (
@@ -238,7 +217,7 @@ const ValidatorProfilePage = () => {
               {selectedMenuItem === 4 && (
                 <div>
                   {/* Messages Details */}
-                  <ViewStakableClaims />
+                  <ViewStakableClaims user={user} />
                 </div>
               )}
             </div>
