@@ -9,16 +9,14 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "express": "^4.19.1",
     "express-async-handler": "^1.2.0",
-<<<<<<< HEAD
-=======
     "jsonwebtoken": "^9.0.2",
->>>>>>> eeb14893a59feb7723bfa2ebfd3c672e28475a4c
     "mdb-react-ui-kit": "^7.2.0",
     "mongoose": "^8.2.3",
     "nodemon": "^3.1.0",

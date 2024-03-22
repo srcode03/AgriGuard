@@ -30,7 +30,7 @@ const ProfilePage = () => {
               {sidebarItems.map((item) => (
                 <li key={item.id}>
                   <button
-                    className={`w-full p-2 text-left focus:outline-none ${
+                    className={`w-full text-left focus:outline-none p-2 ${
                       selectedMenuItem === item.id ? "bg-gray-300" : ""
                     }`}
                     onClick={() => handleMenuItemClick(item.id)}

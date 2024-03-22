@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const FarmerProfile = () => {
-  // Dummy farmer data
-  const farmer = {
+  const [farmer, setFarmer] = useState({
     name: "John Doe",
     age: 35,
     location: "Farmville",
     rating: 65,
     about:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  };
+  });
+
+  useEffect(() => {
+    const farmer = localStorage.getItem("user_agriguard")
+    const fetchCredit = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${farmer.email}`);
+        const data = response.data;
+        if (data.success) {
+          setFarmer(prevFarmer => ({ ...prevFarmer, rating: data.credit }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch credit rating:", error);
+      }
+    };
+
+    fetchCredit();
+  }, []);
 
   return (
     <div className="flex">
-      {/* Farmer Profile */}
       <div className="w-3/4 p-4">
-        {" "}
         <div className="bg-white rounded-lg shadow-lg p-4">
           <h3 className="text-xl font-semibold mb-2">{farmer.name}</h3>
           <p className="text-gray-600 mb-2">Age: {farmer.age}</p>

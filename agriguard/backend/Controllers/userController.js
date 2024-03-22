@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../userSchema");
+const User = require("../Schema/userSchema");
 const generateToken = require("../config/generateToken");
 var validator = require("email-validator");
 const { hashPassword } = require("../config/hashPassword");
