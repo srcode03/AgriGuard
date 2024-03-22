@@ -1,22 +1,63 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+const server = "http://127.0.0.1:8000/api/user/login";
 function Login() {
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log(formData);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      let { data } = await axios.post(
+        `${server}`,
+        {
+          email: formData["email"],
+          password: formData["password"],
+        },
+        config
+      );
+      data = await data.data;
+      console.log(data);
+      //   toast({
+      //     title: "Registration Successful",
+      //     status: "success",
+      //     duration: 5000,
+      //     isClosable: true,
+      //     position: "bottom",
+      //   });
+
+      localStorage.setItem("user_agriguard", JSON.stringify(data));
+      //   setUser(localStorage.getItem("user_chatKaro"));
+      navigate("/");
+    } catch (error) {
+      //   toast({
+      //     title: error.response.data.message,
+      //     status: "error",
+      //     duration: 5000,
+      //     isClosable: true,
+      //     position: "bottom",
+      //   });
+      //   setLoading(false);
+
+      console.log(error);
+    }
   };
 
   return (

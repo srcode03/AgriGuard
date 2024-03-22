@@ -16,7 +16,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/farmer_profile" element={<FarmerProfile />} />
           <Route path="/validator-profile" element={<ValidatorProfilePage />} />
-          {/* <Route path="/form" element={<Form />} /> */}
           <Route path="/submit_claim" element={<ClaimForm />} />
         </Routes>
       </Router>
