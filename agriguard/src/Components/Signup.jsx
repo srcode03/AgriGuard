@@ -1,23 +1,69 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const server = "http://127.0.0.1:8000/api/user/signup";
 
 function Signup() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
-    userType: "", // New field for user type
+    role: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log(formData);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      let { data } = await axios.post(
+        `${server}`,
+        {
+          name: formData["name"],
+          email: formData["email"],
+          password: formData["password"],
+          role: formData["role"],
+        },
+        config
+      );
+      data = await data.data;
+      console.log(data);
+      //   toast({
+      //     title: "Registration Successful",
+      //     status: "success",
+      //     duration: 5000,
+      //     isClosable: true,
+      //     position: "bottom",
+      //   });
+
+      localStorage.setItem("user_agriguard", JSON.stringify(data));
+      //   setUser(localStorage.getItem("user_chatKaro"));
+      navigate("/");
+    } catch (error) {
+      //   toast({
+      //     title: error.response.data.message,
+      //     status: "error",
+      //     duration: 5000,
+      //     isClosable: true,
+      //     position: "bottom",
+      //   });
+      //   setLoading(false);
+
+      console.log(error);
+    }
   };
 
   return (
@@ -28,17 +74,17 @@ function Signup() {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="fullName"
+              htmlFor="name"
             >
               Full Name
             </label>
             <input
               className="w-full px-3 py-2 leading-tight border rounded-md focus:outline-none focus:shadow-outline"
               type="text"
-              name="fullName"
-              id="fullName"
+              name="name"
+              id="name"
               placeholder="Enter your full name"
-              value={formData.fullName}
+              value={formData.name}
               onChange={handleChange}
               required
             />
@@ -82,15 +128,15 @@ function Signup() {
           <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="userType"
+              htmlFor="role"
             >
               Select User Type
             </label>
             <select
               className="w-full px-3 py-2 leading-tight border rounded-md focus:outline-none focus:shadow-outline"
-              name="userType"
-              id="userType"
-              value={formData.userType}
+              name="role"
+              id="role"
+              value={formData.role}
               onChange={handleChange}
               required
             >
