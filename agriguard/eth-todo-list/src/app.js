@@ -48,12 +48,12 @@ App = {
 
   loadContract: async () => {
       // Create a JavaScript version of the smart contract
-      const todoList = await $.getJSON('TodoList.json')
-      App.contracts.TodoList = TruffleContract(todoList)
-      App.contracts.TodoList.setProvider(App.web3Provider)
+      const claimContract = await $.getJSON('ClaimContract.json')
+      App.contracts.ClaimContract = TruffleContract(claimContract)
+      App.contracts.ClaimContract.setProvider(App.web3Provider)
 
       // Hydrate the smart contract with values from the blockchain
-      App.todoList = await App.contracts.TodoList.deployed()
+      App.claimContract = await App.contracts.ClaimContract.deployed()
   },
 
   render: async () => {
@@ -75,43 +75,47 @@ App = {
       App.setLoading(false)
     },
 
-    createTask: async () => {
+    submitClaim: async () => {
       App.setLoading(true)
       const content = $('#newTask').val()
-      await App.todoList.createTask(content)
+      const loc = $('#location').val()
+      const crop = $('#crop').val()
+      const estimatedyeild = $('#estimatedyeild').val()
+      const yeild = $('#yield').val()
+      await App.claimContract.submitClaim(content, loc, crop, estimatedyeild, yeild)
       window.location.reload()
     },
 
     toggleCompleted: async (e) => {
       App.setLoading(true)
-      const taskId = e.target.name
-      await App.todoList.toggleCompleted(taskId)
+      const claimId = e.target.name
+      await App.claimContract.toggleCompleted(claimId)
       window.location.reload()
     },
 
     renderTasks: async () => {
       // Load the total task count from the blockchain
-      const taskCount = await App.todoList.taskCount()
+      const claimCount = await App.claimContract.claimCount()
       const $taskTemplate = $('.taskTemplate')
   
       // Render out each task with a new task template
-      for (var i = 1; i <= taskCount; i++) {
+      for (var i = 1; i <= claimCount; i++) {
         // Fetch the task data from the blockchain
-        const task = await App.todoList.tasks(i)
-        const taskId = task[0].toNumber()
-        const taskContent = task[1]
-        const taskCompleted = task[2]
+        const claim = await App.claimContract.claims(i)
+        const claimId = claim[0].toNumber()
+        const claimAmnt = claim[6]
+        const claimVerified = claim[5]
   
         // Create the html for the task
         const $newTaskTemplate = $taskTemplate.clone()
-        $newTaskTemplate.find('.content').html(taskContent)
+        $newTaskTemplate.find('.content').html(claimAmnt)
         $newTaskTemplate.find('input')
-                        .prop('name', taskId)
-                        .prop('checked', taskCompleted)
+                        .prop('name', claimId)
+                        .prop('checked', claimVerified)
                         .on('click', App.toggleCompleted)
   
         // Put the task in the correct list
-        if (taskCompleted) {
+        if (claimVerified) {
           $('#completedTaskList').append($newTaskTemplate)
         } else {
           $('#taskList').append($newTaskTemplate)
