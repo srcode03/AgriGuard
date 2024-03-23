@@ -142,6 +142,27 @@ const getUser =  asyncHandler(async (req, res) => {
     })
   }
 })
+// const getValidatorClaims =  asyncHandler(async (req, res) => {
+//   const {role} = req.params
+//   try {
+//     const response = await User.find({ role: role })
+//     .populate("claims")
+//     .exec();
+
+//     console.log(response);
+
+//     return res.json({
+//       success: true,
+//       users : response
+//     })
+//   } catch (error) {
+//     return res.json({
+//       error : error.message
+//     })
+//   }
+// })
+
+
 
 module.exports = {
   registerUser,

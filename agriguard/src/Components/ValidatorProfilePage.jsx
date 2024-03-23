@@ -43,9 +43,8 @@ const ValidatorClaimHistory = () => {
 };
 
 const ValidatorProfile = ({ user }) => {
-  // Dummy farmer data
-  const [validator , setValidator] = useState({
-    name: 'name',
+  const [validator, setValidator] = useState({
+    name: user ? user.name : '', // Add null check here
     numberOfCorrectStakes: 0,
     numberOfInCorrectStakes: 0,
     about:
@@ -55,40 +54,80 @@ const ValidatorProfile = ({ user }) => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = axios.get(`http://localhost:8000/api/user/getUser/${user.role}`)
-        const data = response.data
-        console.log(data)
-        const users = data.user
-        const getuser = users.filter(u => u.email === user.email)
-        console.log(getuser)
-        const correct = getuser.claims.map(claim => claim.status === 'approved' || claim.status === 'Approved')
-        const cor = correct.length;
-        const incor = getuser.claims.length - cor;
-        setValidator(prev => ({...prev , name: getuser.name , numberOfCorrectStakes: cor , numberOfInCorrectStakes: incor }))
+        if (user && Object.keys(user).length > 0) {
+          const response = await axios.get(
+            `http://localhost:8000/api/user/getUser/${user.role}`
+          );
+          const data = await response.data;
+          console.log(data);
+          const users = await data.users;
+          const getuser = users.filter((u) => u.email === user.email);
+          console.log(getuser);
+          const correct =
+            getuser.claims &&
+            getuser.claims.map(
+              (claim) =>
+                claim.status === "approved" || claim.status === "Approved"
+            );
+          if (correct) {
+            const cor = correct.length;
+            const incor = getuser.claims.length - cor;
+            setValidator((prev) => ({
+              ...prev,
+              name: getuser.name,
+              numberOfCorrectStakes: cor,
+              numberOfInCorrectStakes: incor,
+            }));
+          } else {
+            console.log("getuser", getuser);
+            setValidator((prev) => ({
+              ...prev,
+              name: user.name,
+              numberOfCorrectStakes: 0,
+              numberOfInCorrectStakes: 0,
+            }));
+          }
+        }
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
-    }
-    fetchDetails()
-  } , [])
+    };
+    fetchDetails();
+  }, [user]);
 
-  return (
-    <div className="flex">
-      <div className="w-3/4 p-4">
-        {" "}
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <h3 className="text-xl font-semibold mb-2">{validator.name}</h3>
-          <p className="text-gray-600 mb-2">Number of Correct Stakes : {validator.numberOfCorrectStakes}</p>
-          <p className="text-gray-600 mb-2">Number of Incorrect Stakes : {validator.numberOfInCorrectStakes}</p>
-          <p className="text-gray-600">{validator.about}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+}
 
 const ViewStakableClaims = () => {
-    const ListOfClaimableStakes = []
+    const [listOfClaimableStakes , setListOfClaimableStakes] = useState([])
+
+    useEffect(() => {
+      const fetchCredit = async (userid) => {
+        const response = await axios.get(`http://localhost:8000/api/claims/getCredit/${userid}`)
+        const data = await response.data
+        return data.credit;
+      }
+      const fetchStakableClaims = async () => {
+        try {
+          const response = await axios.get("http://localhost:8000/api/claims/getAllClaims")
+          const data = await response.data
+          const claims = data.claims;
+          const stakableClaims = claims.filter(claim => (claim.status === 'pending' || claim.status === 'Pending'))
+          const temp = stakableClaims.map(claim => {
+            return {
+              id: claim.farmerId,
+              claimId: claim._id,
+              status: claim.status,
+              rating: fetchCredit(claim.id)
+            }
+          })
+          setListOfClaimableStakes(temp)
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+      fetchStakableClaims()
+    } , [])
+
     return (
         <div>
           <table className="min-w-full divide-y divide-gray-200">
@@ -101,20 +140,20 @@ const ViewStakableClaims = () => {
                   Claim ID
                 </th>
                 <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  staked amount by farmer
+                  Credit Rating of Farmer
                 </th>
                 <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Farmer credit rating
+                  Claim Status
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {ListOfClaimableStakes.map((h) => (
+              {listOfClaimableStakes && listOfClaimableStakes.map((h) => (
                 <tr key={h.claimid}>
-                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.farmername}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.claimid}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.amountByFarmer}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.credit}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.claimId}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.rating}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">{h.status}</td>
                 </tr>
               ))}
             </tbody>
