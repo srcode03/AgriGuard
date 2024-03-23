@@ -8,6 +8,9 @@ import FarmerProfile from "./Components/FarmerProfile";
 import ClaimForm from "./Components/ClaimForm";
 import { useEffect, useState } from "react";
 import ProgressBar from "./Components/ProgressBar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [user, setUser] = useState("");
   useEffect(() => {
@@ -43,6 +46,7 @@ function App() {
           <Route path="/claim_progress" element={<ProgressBar user={user} />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }

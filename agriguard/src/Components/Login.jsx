@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const server = "http://127.0.0.1:8000/api/user/login";
-function Login({user,setUser}) {
+function Login({ user, setUser }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,7 +18,7 @@ function Login({user,setUser}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log(formData);
+    // console.log(formData);
     try {
       const config = {
         headers: {
@@ -42,6 +43,7 @@ function Login({user,setUser}) {
       //     isClosable: true,
       //     position: "bottom",
       //   });
+      toast.success("Logged in successfully");
 
       localStorage.setItem("user_agriguard", JSON.stringify(data));
       setUser(JSON.parse(localStorage.getItem("user_agriguard")));
@@ -55,7 +57,7 @@ function Login({user,setUser}) {
       //     position: "bottom",
       //   });
       //   setLoading(false);
-
+      toast.error(error.response.data.message);
       console.log(error);
     }
   };

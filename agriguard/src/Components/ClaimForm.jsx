@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import Axios library
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ClaimForm = ({ user }) => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const ClaimForm = ({ user }) => {
     event.preventDefault();
     if (!selectedFile) {
       console.log("No file selected");
+      toast.warning("No file selected");
       return;
     }
 

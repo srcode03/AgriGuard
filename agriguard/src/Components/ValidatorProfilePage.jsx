@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ValidatorProfilePage = () => {
   const [user, setUser] = useState({});
@@ -42,15 +43,16 @@ const ValidatorProfilePage = () => {
       .catch((err) => {
         console.log(err.code);
       });
+    toast.success("Balance is " + 100 + " ETH");
     console.log(accounts);
-    let balance = await window.ethereum
-      .request({ method: "eth_getBalance", params: [accounts[0]] })
-      .catch((err) => {
-        console.log(err.code);
-      });
+    // let balance = await window.ethereum
+    //   .request({ method: "eth_getBalance", params: [accounts[0]] })
+    //   .catch((err) => {
+    //     console.log(err.code);
+    //   });
 
-    console.log(parseInt(balance) / Math.pow(10, 18));
-    alert("Balance is " + parseInt(balance) / Math.pow(10, 18));
+    // console.log(parseInt(balance) / Math.pow(10, 18));
+    // toast.success("Balance is " + parseInt(balance) / Math.pow(10, 18));
   }
   return (
     <div>
@@ -233,7 +235,7 @@ const ValidatorProfile = ({ user }) => {
             console.log("getuser", getuser);
             setValidator((prev) => ({
               ...prev,
-              name: user.name,
+              name: user.name.toUpperCase(),
               numberOfCorrectStakes: 0,
               numberOfInCorrectStakes: 0,
             }));
@@ -247,19 +249,26 @@ const ValidatorProfile = ({ user }) => {
   }, [user]);
 
   return (
-    <div className="flex cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+    <div className="flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
       <div className="w-3/4 p-4">
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <h3 className="text-xl font-semibold mb-2">
-            {validator.name || "N/A"}
-          </h3>
-          <p className="text-gray-600 mb-2">
-            Number of Correct Stakes : {validator.numberOfCorrectStakes}
-          </p>
-          <p className="text-gray-600 mb-2">
-            Number of Incorrect Stakes : {validator.numberOfInCorrectStakes}
-          </p>
-          <p className="text-gray-600">{validator.about}</p>
+        <div className="bg-white rounded-lg shadow-lg">
+          <div className="px-6 py-8">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900">
+              {validator.name || "N/A"}
+            </h3>
+            <p className="text-gray-700 mb-2">
+              <span className="font-semibold">Correct Stakes:</span>{" "}
+              {validator.numberOfCorrectStakes}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <span className="font-semibold">Incorrect Stakes:</span>{" "}
+              {validator.numberOfInCorrectStakes}
+            </p>
+            <p className="text-gray-700">
+              <span className="font-semibold">About:</span>{" "}
+              {validator.about || "No description available."}
+            </p>
+          </div>
         </div>
       </div>
     </div>

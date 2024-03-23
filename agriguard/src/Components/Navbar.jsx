@@ -2,6 +2,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,6 +21,7 @@ export default function Example() {
     localStorage.removeItem("user_agriguard");
     setUser("");
     // window.location.reload();
+    toast.success("Logged out successfully!");
     navigate("/login");
   };
 
