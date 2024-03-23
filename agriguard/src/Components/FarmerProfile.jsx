@@ -60,13 +60,11 @@ const ProfilePage = ({ user }) => {
               {/* Display respective details based on selected menu item */}
               {selectedMenuItem === 1 && (
                 <div>
-                  {/* Profile Details */}
                   <FarmerProfile user={user} />
                 </div>
               )}
               {selectedMenuItem === 2 && (
                 <div>
-                  {/* Settings Details */}
                   <ClaimHistory user={user} />
                 </div>
               )}

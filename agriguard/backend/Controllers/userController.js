@@ -143,8 +143,48 @@ const getUser =  asyncHandler(async (req, res) => {
   }
 })
 
+const getUserById = asyncHandler(async (req, res) => {
+  const {userid} = req.params;
+  try {
+    const user = await User.findOne({email : userid}).populate("claims").exec();;
+    if(!user) return res.json({message: 'user not found'})
+    return res.json({
+      success: true,
+      user: user
+    })
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error.message
+    })
+  }
+})
+
+// const getValidatorClaims =  asyncHandler(async (req, res) => {
+//   const {role} = req.params
+//   try {
+//     const response = await User.find({ role: role })
+//     .populate("claims")
+//     .exec();
+
+//     console.log(response);
+
+//     return res.json({
+//       success: true,
+//       users : response
+//     })
+//   } catch (error) {
+//     return res.json({
+//       error : error.message
+//     })
+//   }
+// })
+
+
+
 module.exports = {
   registerUser,
   authUser,
-  getUser
+  getUser,
+  getUserById
 };
