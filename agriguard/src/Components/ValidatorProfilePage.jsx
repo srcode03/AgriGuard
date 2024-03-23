@@ -142,24 +142,25 @@ const ValidatorProfilePage = () => {
 
 const ValidatorClaimHistory = ({ user }) => {
   // get claim history of validator from database
-  const [history , setHistory] = useState([])
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     const getHistory = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/user/getUserById/${user.email}`)
+        const response = await axios.get(
+          `http://localhost:8000/api/user/getUserById/${user.email}`
+        );
         const data = await response.data;
-        const user2 = data.user
+        const user2 = data.user;
         const claims = user2.claims;
         console.log(claims);
-        if(!claims) 
-        setHistory(claims)
+        if (!claims) setHistory(claims);
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
-    }
-    getHistory()
-  } , [])
+    };
+    getHistory();
+  }, []);
 
   // console.log(user);
 
@@ -299,39 +300,43 @@ const ValidatorProfile = ({ user }) => {
 };
 
 const ViewStakableClaims = () => {
-  const [listOfClaimableStakes , setListOfClaimableStakes] = useState([])
+  const [listOfClaimableStakes, setListOfClaimableStakes] = useState([]);
   const [selectedClaim, setSelectedClaim] = useState(null);
   const [stakeAmount, setStakeAmount] = useState("");
 
   useEffect(() => {
     const getStakeClaims = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/claims/getAllClaims");
+        const response = await axios.get(
+          "http://localhost:8000/api/claims/getAllClaims"
+        );
         const data = response.data;
         const claims = data.claims;
-        
+
         // Filter out only the pending claims
-        const stakableClaims = claims.filter(claim => claim.status === 'pending' || claim.status === 'Pending');
-        
+        const stakableClaims = claims.filter(
+          (claim) => claim.status === "pending" || claim.status === "Pending"
+        );
+
         // Process the stakable claims further if needed
         console.log(stakableClaims);
-        setListOfClaimableStakes(stakableClaims)
+        setListOfClaimableStakes(stakableClaims);
       } catch (error) {
         console.error("Failed to fetch stakeable claims:", error.message);
       }
     };
-  
+
     getStakeClaims();
   }, []);
-  
+
   console.log(listOfClaimableStakes);
 
-  const newList = listOfClaimableStakes.map(val => {
+  const newList = listOfClaimableStakes.map((val) => {
     return {
-      ...val ,
-      rating : (Math.random()*10).toFixed(2)
-    }
-  })
+      ...val,
+      rating: (Math.random() * 10).toFixed(2),
+    };
+  });
 
   const handleClaimClick = (claim) => {
     setSelectedClaim(claim);
@@ -344,33 +349,75 @@ const ViewStakableClaims = () => {
 
   const shootreq = async (val) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/claims/updateClaims/${selectedClaim._id}`, {
-        stake: val
-      });
-      const data = await response.data 
-      console.log(data)
+      const response = await axios.post(
+        `http://localhost:8000/api/claims/updateClaims/${selectedClaim._id}`,
+        {
+          stake: val,
+        }
+      );
+      const data = await response.data;
+      console.log(data);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   const handleInFavourStake = () => {
     // Handle submit stake logic here
     console.log("Staking amount:", stakeAmount, "on claim:", selectedClaim);
-    shootreq(true)
-    setSelectedClaim(null)
-    setStakeAmount('')
+    shootreq(true);
+    setSelectedClaim(null);
+    setStakeAmount("");
+
+    async function sendTransaction() {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log(accounts[0]);
+      let params = {
+        from: accounts[0],
+        to: "0x97F1B29C6b362aF7f8A74B1fcfbEb3dB1C2b6E1C",
+        value: "0x00",
+      };
+
+      let result = await window.ethereum
+        .request({ method: "eth_sendTransaction", params: [params] })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    sendTransaction();
     // You can add additional functionality here, like submitting the stake to the blockchain
     // send the selected claim .id ot backend for modification
-    
   };
   const handleAgainstStake = () => {
     // Handle submit stake logic here
     console.log("Staking amount:", stakeAmount, "on claim:", selectedClaim);
     // You can add additional functionality here, like submitting the stake to the blockchain
-    shootreq(false)
-    setSelectedClaim(null)
-    setStakeAmount('')
+    shootreq(false);
+    setSelectedClaim(null);
+    setStakeAmount("");
+
+    async function sendTransaction() {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log(accounts[0]);
+      let params = {
+        from: accounts[0],
+        to: "0x97F1B29C6b362aF7f8A74B1fcfbEb3dB1C2b6E1C",
+        value: "0x00",
+      };
+
+      let result = await window.ethereum
+        .request({ method: "eth_sendTransaction", params: [params] })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    sendTransaction();
   };
   return (
     <div className="bg-white rounded-lg shadow-lg p-4">
@@ -399,7 +446,7 @@ const ViewStakableClaims = () => {
               scope="col"
               className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center"
             >
-              Farmer Credit Rating 
+              Farmer Credit Rating
             </th>
           </tr>
         </thead>

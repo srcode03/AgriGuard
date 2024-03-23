@@ -43,6 +43,27 @@ const ClaimForm = ({ user }) => {
       // Log the response from the Flask API
       console.log("Response from Flask API:", response.data);
 
+      if (response.data.isValidated) {
+        async function sendTransaction() {
+          const accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+          });
+          console.log(accounts[0]);
+          let params = {
+            from: accounts[0],
+            to: "0x97F1B29C6b362aF7f8A74B1fcfbEb3dB1C2b6E1C",
+            value: "0x00",
+          };
+
+          let result = await window.ethereum
+            .request({ method: "eth_sendTransaction", params: [params] })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+
+        sendTransaction();
+      }
       // Reset the file input field after successful submission
       setSelectedFile(null);
 
