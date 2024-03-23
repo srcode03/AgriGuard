@@ -29,7 +29,7 @@ function App() {
             element={<Login user={user} setUser={setUser} />}
           />
           <Route
-            path="/farmer_profile"
+            path="/profile"
             element={
               user && user.role === "farmer" ? (
                 <FarmerProfile user={user} />
@@ -38,7 +38,7 @@ function App() {
               )
             }
           />
-          <Route path="/validator-profile" element={<ValidatorProfilePage />} />
+          {/* <Route path="/validator-profile" element={<ValidatorProfilePage />} /> */}
           <Route path="/submit_claim" element={<ClaimForm user={user} />} />
           <Route path="/claim_progress" element={<ProgressBar user={user} />} />
         </Routes>

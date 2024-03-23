@@ -19,8 +19,8 @@ export default function Example() {
   const handleLogout = () => {
     localStorage.removeItem("user_agriguard");
     setUser("");
-    window.location.reload();
-    // navigate("/login");
+    // window.location.reload();
+    navigate("/login");
   };
 
   return (
@@ -72,7 +72,7 @@ export default function Example() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {user ? (
                   <Link
-                    to={"/farmer_profile"}
+                    to={"/profile"}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 dec"
                     style={{ textDecoration: "none" }}
                   >

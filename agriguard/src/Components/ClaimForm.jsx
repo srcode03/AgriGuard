@@ -7,10 +7,11 @@ const ClaimForm = ({ user }) => {
   const [submitted, setSubmitted] = useState(false); // State to track submission status
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user_agriguard"));
     if (!user) {
       navigate("/login");
     }
-  }, [navigate, submitted]);
+  }, []);
 
   const [selectedFile, setSelectedFile] = useState(null);
 
