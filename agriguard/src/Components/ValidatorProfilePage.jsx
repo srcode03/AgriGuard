@@ -140,12 +140,26 @@ const ValidatorProfilePage = () => {
 
 const ValidatorClaimHistory = ({ user }) => {
   // get claim history of validator from database
-  const history = [
-    { claimid: "1", status: "accepted", stakedAmount: "2" },
-    { claimid: "2", status: "accepted", stakedAmount: "2" },
-    { claimid: "3", status: "accepted", stakedAmount: "1" },
-    { claimid: "4", status: "rejected", stakedAmount: "5" },
-  ];
+  const [history , setHistory] = useState([])
+
+  useEffect(() => {
+    const getHistory = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/user/getUserById/${user.email}`)
+        const data = await response.data;
+        const user2 = data.user
+        const claims = user2.claims;
+        console.log(claims);
+        if(!claims) 
+        setHistory(claims)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    getHistory()
+  } , [])
+
+  // console.log(user);
 
   return (
     <div>
@@ -162,7 +176,7 @@ const ValidatorClaimHistory = ({ user }) => {
               scope="col"
               className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Staked Amount
+              Farmer Id
             </th>
             <th
               scope="col"
@@ -170,19 +184,28 @@ const ValidatorClaimHistory = ({ user }) => {
             >
               Status
             </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Claim Filed On
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {history.map((h) => (
-            <tr key={h.claimid}>
+            <tr key={h._id}>
               <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.claimid}
+                {h._id}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.stakedAmount}
+                {h.farmerId}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-center">
                 {h.status}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-center">
+                {h.DateOfClaim}
               </td>
             </tr>
           ))}
@@ -267,57 +290,170 @@ const ValidatorProfile = ({ user }) => {
 };
 
 const ViewStakableClaims = () => {
-  const ListOfClaimableStakes = [];
+  const [listOfClaimableStakes , setListOfClaimableStakes] = useState([])
+  const [selectedClaim, setSelectedClaim] = useState(null);
+  const [stakeAmount, setStakeAmount] = useState("");
+
+  useEffect(() => {
+    const getStakeClaims = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/claims/getAllClaims");
+        const data = response.data;
+        const claims = data.claims;
+        
+        // Filter out only the pending claims
+        const stakableClaims = claims.filter(claim => claim.status === 'pending' || claim.status === 'Pending');
+        
+        // Process the stakable claims further if needed
+        console.log(stakableClaims);
+        setListOfClaimableStakes(stakableClaims)
+      } catch (error) {
+        console.error("Failed to fetch stakeable claims:", error.message);
+      }
+    };
+  
+    getStakeClaims();
+  }, []);
+  
+  console.log(listOfClaimableStakes);
+
+  const newList = listOfClaimableStakes.map(val => {
+    return {
+      ...val ,
+      rating : (Math.random()*10).toFixed(2)
+    }
+  })
+
+  const handleClaimClick = (claim) => {
+    setSelectedClaim(claim);
+    setStakeAmount("");
+  };
+
+  const handleStakeAmountChange = (e) => {
+    setStakeAmount(e.target.value);
+  };
+
+  const shootreq = async (val) => {
+    try {
+      const response = await axios.post(`http://localhost:8000/api/claims/updateClaims/${selectedClaim._id}`, {
+        stake: val
+      });
+      const data = await response.data 
+      console.log(data)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const handleInFavourStake = () => {
+    // Handle submit stake logic here
+    console.log("Staking amount:", stakeAmount, "on claim:", selectedClaim);
+    shootreq(true)
+    setSelectedClaim(null)
+    setStakeAmount('')
+    // You can add additional functionality here, like submitting the stake to the blockchain
+    // send the selected claim .id ot backend for modification
+    
+  };
+  const handleAgainstStake = () => {
+    // Handle submit stake logic here
+    console.log("Staking amount:", stakeAmount, "on claim:", selectedClaim);
+    // You can add additional functionality here, like submitting the stake to the blockchain
+    shootreq(false)
+    setSelectedClaim(null)
+    setStakeAmount('')
+  };
   return (
-    <div>
+    <div className="bg-white rounded-lg shadow-lg p-4">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-gray-100">
           <tr>
             <th
               scope="col"
-              className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center"
             >
-              Farmer Name
+              Farmer ID
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center"
             >
               Claim ID
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center"
             >
-              staked amount by farmer
+              Claim status
             </th>
             <th
               scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider text-center"
             >
-              Farmer credit rating
+              Farmer Credit Rating 
             </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {ListOfClaimableStakes.map((h) => (
-            <tr key={h.claimid}>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.farmername}
+          {newList.map((h, index) => (
+            <tr
+              key={index}
+              onClick={() => handleClaimClick(h)}
+              className="hover:bg-gray-100 cursor-pointer"
+            >
+              <td className="px-6 py-4 whitespace-nowrap text-center text-gray-700">
+                {h.farmerId}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.claimid}
+              <td className="px-6 py-4 whitespace-nowrap text-center text-gray-700">
+                {h._id}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.amountByFarmer}
+              <td className="px-6 py-4 whitespace-nowrap text-center text-gray-700">
+                {h.status}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-center">
-                {h.credit}
+              <td className="px-6 py-4 whitespace-nowrap text-center text-gray-700">
+                {h.rating}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {selectedClaim && (
+        <div className="mt-4 p-4 bg-green-100 rounded-md">
+          <p className="text-green-800 font-semibold">
+            Selected Claim: Farmer ID {selectedClaim.farmerId}
+          </p>
+          <div className="mt-4">
+            <label
+              htmlFor="stakeAmount"
+              className="block text-gray-700 font-semibold mb-2"
+            >
+              Enter stake amount:
+            </label>
+            <input
+              type="number"
+              id="stakeAmount"
+              value={stakeAmount}
+              onChange={handleStakeAmountChange}
+              className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+              placeholder="Enter amount to stake"
+            />
+            <button
+              type="button"
+              onClick={handleInFavourStake}
+              className="mt-2 ml-2 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 shadow"
+            >
+              In Favour
+            </button>
+            <button
+              type="button"
+              onClick={handleAgainstStake}
+              className="mt-2 ml-2 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 shadow"
+            >
+              Against Claim
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -29,6 +29,9 @@ const claimSchema = new mongoose.Schema({
   status: {
     type: String ,
     required: true
+  },
+  Stake: {
+    type: Boolean
   }
 });
 

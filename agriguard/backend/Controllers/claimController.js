@@ -18,6 +18,30 @@ const getClaims = asyncHandler(async (req, res) => {
     }
 });
 
+const updateClaims = asyncHandler(async (req , res) => {
+    const {claimId} = req.params;
+    const { stake } = req.body;
+    try {
+        const updatedClaim = await Claim.findByIdAndUpdate(claimId, { stake }, { new: true });
+        if (!updatedClaim) {
+            return res.status(404).json({
+                success: false,
+                message: 'Claim not found'
+            });
+        }
+        res.json({
+            success: true,
+            claim: updatedClaim
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to update claim'
+        });
+    }
+});
+
+
 const addClaims = asyncHandler(async (req, res) => {
     if (!req.body || !req.body.Location) {
         return res.status(400).json({
@@ -109,6 +133,7 @@ module.exports = {
     getClaims,
     addClaims,
     getClaimsByFarmerId,
-    getCredit
+    getCredit,
+    updateClaims
 };
   
