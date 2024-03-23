@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import Axios library
+import { useNavigate } from "react-router-dom";
 
-const ClaimForm = () => {
+const ClaimForm = ({ user }) => {
+  const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false); // State to track submission status
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user_agriguard"));
+    if (!user) {
+      navigate("/login");
+    }
+  }, []);
+
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileInputChange = (event) => {
@@ -32,6 +43,15 @@ const ClaimForm = () => {
 
       // Reset the file input field after successful submission
       setSelectedFile(null);
+
+      // Set submitted state to true to display "Submitted Successfully" message
+      setSubmitted(true);
+
+      // Reset submitted state after 3 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+        navigate("/");
+      }, 3000);
     } catch (error) {
       console.error("Error submitting file:", error);
     }
@@ -66,6 +86,20 @@ const ClaimForm = () => {
           </button>
         </div>
       </form>
+      {submitted && (
+        <div className="fixed inset-0 flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-black opacity-50" />
+          <div className="bg-white p-8 rounded-lg z-20">
+            <p className="text-xl font-semibold mb-4">Submitted Successfully</p>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => setSubmitted(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
