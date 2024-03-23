@@ -91,7 +91,7 @@ const ValidatorProfilePage = () => {
                 <div>
                   {/* Profile Details */}
                   <ValidatorProfile user={user} />
-                  <ValidatorProfile user={user} />
+                  {/* <ValidatorProfile user={user} /> */}
                 </div>
               )}
               {selectedMenuItem === 2 && (
@@ -247,7 +247,7 @@ const ValidatorProfile = ({ user }) => {
   }, [user]);
 
   return (
-    <div className="flex">
+    <div className="flex cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
       <div className="w-3/4 p-4">
         <div className="bg-white rounded-lg shadow-lg p-4">
           <h3 className="text-xl font-semibold mb-2">
