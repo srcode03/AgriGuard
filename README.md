@@ -37,7 +37,7 @@ Machine Learning:- Langchain
 
 OCR :- Tesseract
 
-Backend:- Node.ja
+Backend:- Node.js
 
 Database:- MongoDB
 
