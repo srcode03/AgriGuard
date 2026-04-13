@@ -37,7 +37,9 @@ Machine Learning:- Langchain
 
 OCR :- Tesseract
 
-Backend:- MongoDB
+Backend:- Node.ja
+
+Database:- MongoDB
 
 **Team Members**
 
